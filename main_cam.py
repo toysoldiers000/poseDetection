@@ -12,6 +12,7 @@ import sys
 import tqdm
 from mediapipe.python.solutions import drawing_utils as mp_drawing
 from mediapipe.python.solutions import pose as mp_pose
+import time
 
 
 def show_image(img, figsize=(10, 10)):
@@ -865,10 +866,11 @@ def dump_for_the_app():
 dump_for_the_app()
 # Specify your video name and target pose class to count the repetitions.
 video_path = 'final_test.mp4'
-class_name='squat'
+class_name='squat'  #需要设置为两个动作中的一个名称
 out_video_path = 'final_test_out.mp4'
 
-video_cap = cv2.VideoCapture(0)
+#video_cap = cv2.VideoCapture(video_path)   #视频模式
+video_cap = cv2.VideoCapture(0)     #摄像头模式
 
 # Get some video parameters to generate output video with classificaiton.
 video_n_frames = video_cap.get(cv2.CAP_PROP_FRAME_COUNT)
@@ -878,7 +880,7 @@ video_height = int(video_cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
 
 # Folder with pose class CSVs. That should be the same folder you using while
 # building classifier to output CSVs.
-pose_samples_folder = 'fitness_poses_csvs_out'
+pose_samples_folder = 'fitness_poses_csvs_out'  #训练得到的csv文件夹
 
 # Initialize tracker.
 pose_tracker = mp_pose.Pose()
@@ -981,16 +983,16 @@ while True:
         repetitions_count=repetitions_count)
 
     # Save the output frame.
-    #out_video.write(cv2.cvtColor(np.array(output_frame), cv2.COLOR_RGB2BGR))
+    #out_video.write(cv2.cvtColor(np.array(output_frame), cv2.COLOR_RGB2BGR))   #视频模式打开
 
     # Show intermediate frames of the video to track progress.
-    #if frame_idx % 50 == 0:
-        #show_image(output_frame)
-    #show_image(output_frame)
     cv2.imshow('MediaPipe Pose', cv2.cvtColor(np.asarray(output_frame),cv2.COLOR_RGB2BGR))
     if cv2.waitKey(5) & 0xFF == 27:
         break
-    #frame_idx += 1
+    if video_n_frames !=0:
+        frame_idx += 1
+        if frame_idx>=video_n_frames:
+            break
 
 
 # Close output video.
