@@ -975,7 +975,7 @@ while True:
         repetitions_count = repetition_counter.n_repeats
 
     # Draw classification plot and repetition counter.
-    print(pose_classification_filtered)
+    print(pose_classification)
     output_frame = pose_classification_visualizer(
         frame=output_frame,
         pose_classification=pose_classification,
