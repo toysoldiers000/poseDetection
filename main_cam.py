@@ -583,7 +583,7 @@ class PoseClassificationVisualizer(object):
     def _plot_classification_history(self, output_width, output_height):
 
         fig = plt.figure(figsize=self._plot_figsize)
-        if self._plot_x_max == 0:       #cam-mode
+        if self._plot_x_max <= 0:       #cam-mode
             x_interval = 50
 
         for classification_history in [self._pose_classification_history,
@@ -594,12 +594,12 @@ class PoseClassificationVisualizer(object):
                     y.append(None)
                 elif self._class_name in classification:
                     y.append(classification[self._class_name])
-                    if self._plot_x_max == 0:
+                    if self._plot_x_max <= 0 :
                         x_interval+=1
                         plt.xlim(left = x_interval-50,right = x_interval)
                 else:
                     y.append(0)
-                    if self._plot_x_max == 0:
+                    if self._plot_x_max <= 0:
                         x_interval+=1
                         plt.xlim(left=x_interval - 50, right=x_interval)
             plt.plot(y, linewidth=7)
@@ -989,7 +989,7 @@ while True:
     cv2.imshow('MediaPipe Pose', cv2.cvtColor(np.asarray(output_frame),cv2.COLOR_RGB2BGR))
     if cv2.waitKey(5) & 0xFF == 27:
         break
-    if video_n_frames !=0:
+    if video_n_frames >0:
         frame_idx += 1
         if frame_idx>=video_n_frames:
             break
